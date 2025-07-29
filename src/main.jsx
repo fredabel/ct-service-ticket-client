@@ -4,11 +4,16 @@ import {BrowserRouter} from 'react-router-dom';
 import App from './App.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Auth0ProviderWithNavigate from "./auth/Auth0Provider";
+import { CartProvider } from "./components/CartContext";
 
 createRoot(document.getElementById('root')).render(
-  <BrowserRouter>
-    <Auth0ProviderWithNavigate>
-      <App />
-    </Auth0ProviderWithNavigate>
-  </BrowserRouter>
+  <StrictMode>
+    <BrowserRouter>
+      <Auth0ProviderWithNavigate>
+        <CartProvider>
+          <App />
+        </CartProvider>
+      </Auth0ProviderWithNavigate>
+    </BrowserRouter>
+  </StrictMode>
 )

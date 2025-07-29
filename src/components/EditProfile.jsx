@@ -25,12 +25,12 @@ function EditProfile(){
         try{
             setLoading(true);
             const token = await getAccessTokenSilently();
-            const response = await axios.get(`${backend_url}/customers/me`,{
+            const response = await axios.get(`${backend_url}/users/me`,{
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             })
-            setUserDetails(response.data)
+            setUserDetails(response.data.user)
         }catch (err) {
             setError('Failed to fetch user details.', err);
         } finally {
@@ -83,7 +83,7 @@ function EditProfile(){
         try{
             setLoading(true)
             const token = await getAccessTokenSilently();
-            const response = await axios.put(`http://127.0.0.1:5000/customers/`,formData,
+            const response = await axios.put(`http://127.0.0.1:5000/users/`,formData,
                 {
                     headers: { Authorization: `Bearer ${token}` }
                 }

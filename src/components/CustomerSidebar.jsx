@@ -12,9 +12,9 @@ function CustomerSidebar(){
     const handleProfile = () =>{
         navigate('/profile')
     }
-    const handleMyTicket = () =>{
-        navigate('/my-ticket')
-    }
+    // const handleMyTicket = () =>{
+    //     navigate('/my-ticket')
+    // }
    
     
     return(
@@ -23,9 +23,9 @@ function CustomerSidebar(){
                 <li className="nav-item">
                     <a className="nav-link active" aria-current="page" onClick={handleProfile} role="button">Profile</a>
                 </li>
-                <li className="nav-item">
+                {/* <li className="nav-item">
                     <a className="nav-link" onClick={handleMyTicket} role="button">My Tickets</a>
-                </li>
+                </li> */}
             </ul>
         </Card>
     )

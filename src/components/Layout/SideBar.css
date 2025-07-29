@@ -1,0 +1,27 @@
+/* SideBar.css */
+.sidebar-link {
+  color: #333;
+  transition: background 0.2s, color 0.2s;
+  border-radius: 4px;
+  padding: 8px 20px !important;
+  display: block;
+  text-decoration: none;
+
+}
+
+.sidebar-link:hover,
+.sidebar-link:focus {
+  background: #f0f0f0;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.sidebar-link.active,
+.sidebar-link.sidebar-indent.active
+{
+  background: #dee2e6;
+  font-weight: 500;
+}
+.sidebar-indent {
+  padding-left: 3rem !important;
+}

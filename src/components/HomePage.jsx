@@ -13,7 +13,7 @@ const HomePage = () =>{
         <Container >
             <Row className="p-5">
                <Col sm={12} className="text-center mb-5">
-                    <h1>Welcome Mechanic Shop</h1>
+                    <h1>Fred's Platform</h1>
                </Col>
                <Col sm={12}>
                     <p>

@@ -17,19 +17,19 @@ function Profile(){
     // const [loading, setLoading] = useState(false);
     // const [validated, setValidated] = useState(false);
 
-    const fetchCustomers = async () => {
+    const fetchUser = async () => {
         const token = await getAccessTokenSilently();
-        const response = axios.get(`${backend_url}/customers/me`,{
+        const response = axios.get(`${backend_url}/users/me`,{
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         })
         const data = await response
-        setUserDetails(data.data)
+        setUserDetails(data.data.user)
     }
 
     useEffect(()  => {
-        fetchCustomers()
+        fetchUser()
     },[])
 
 

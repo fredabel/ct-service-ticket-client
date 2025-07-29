@@ -7,9 +7,9 @@ const AuthSync = () => {
     const backend_url = import.meta.env.VITE_BACKEND_URL;
     const syncUser = async () => {
         const token = await getAccessTokenSilently();
-        const response = axios.post(`${backend_url}/customers/sync`,{
+        const response = axios.post(`${backend_url}/users/sync`,{
             email: user?.email,
-            name: user?.name,
+            full_name: user?.name,
             picture: user?.picture,
             sub: user?.sub, // this is the Auth0 user ID (e.g., "google-oauth2|xyz")
             },{
