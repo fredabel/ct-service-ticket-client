@@ -25,7 +25,7 @@ function ProductListing(){
 
     useEffect(() =>{
         setLoading(true); // Start loading
-        axios.get(`${backend_url}/products`)
+        axios.get(`${backend_url}/products/`)
         .then(response => {
             console.log(response.data)
             setProducts(response.data.items);
