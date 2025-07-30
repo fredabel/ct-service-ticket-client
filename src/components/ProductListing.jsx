@@ -6,6 +6,8 @@ import ErrorMessage from './ErrorMessage';
 import { useNavigate } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
 import { useCart } from "./Cart/CartContext";
+import Toast from 'react-bootstrap/Toast';
+import ToastContainer from 'react-bootstrap/ToastContainer';
 function ProductListing(){
     const { loadCart } = useCart();
     const navigate = useNavigate();
@@ -13,7 +15,11 @@ function ProductListing(){
     const [loading, setLoading] = useState(true); // Loading state
     const [error, setError] = useState(null);    // Error state
 
-    const {user, isAuthenticated, getAccessTokenSilently} = useAuth0();
+    const [show, setShow] = useState(false);
+    const [toastBg, setToastBg] = useState('success'); // default is gree
+    const [responseMsg, setResponseMsg] = useState(false);
+
+    const {user, isAuthenticated, getAccessTokenSilently, loginWithRedirect} = useAuth0();
     
     const backend_url = import.meta.env.VITE_BACKEND_URL;
 
@@ -36,25 +42,35 @@ function ProductListing(){
         navigate(`/products/${productId}`);
     }
     const addToCart = async (product) => {
-        const token = await getAccessTokenSilently();
-        // Here you would typically dispatch an action to add the product to the cart
-        // For this example, we'll just log it to the console
-        console.log("Adding to cart:", product);
-        // You can also navigate to the cart page if needed
-        // navigate('/cart');
-        const res = await axios.post(`${backend_url}/cart_items/`,{
-            product_id: product.id,
-            quantity: 1
-        },{
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
-        console.log(res)
-        if(res.status === 201)
-            await loadCart();
-            console.log("Product added to cart successfully")
+        try {
+            const token = await getAccessTokenSilently();
+            const res = await axios.post(`${backend_url}/cart_items/`,{
+                product_id: product.id,
+                quantity: 1
+            },{
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
 
+            if(res.status === 201){
+                setResponseMsg(res.data.message)
+                setToastBg('success');
+                await loadCart();
+            }else{
+                setError(res.data.message || 'Please try again.');
+                setToastBg('danger');
+            }
+
+        }catch(err){
+
+            setError(`${err.response.data.message}`);
+            setResponseMsg(err.response?.data?.message || 'Something went wrong.');
+            setToastBg('danger');
+            setShow(true);
+        }finally {
+            setLoading(false);
+        }     
     }
 
     const convertPrice = (price) => {
@@ -67,9 +83,24 @@ function ProductListing(){
         )
     }
 
+    const handleLogin = async () => {
+        await loginWithRedirect({
+            appState: {
+                returnTo: "/products",
+            },
+            authorizationParams: {
+                prompt: "login",
+            },
+        });
+    };
+
     return(
         <Container fluid >
-           
+            <ToastContainer position="bottom-end" className="p-3">
+                <Toast onClose={() => setShow(false)} show={show} bg={toastBg} delay={3000} autohide>
+                    <Toast.Body className="text-white">{responseMsg}</Toast.Body>
+                </Toast>
+            </ToastContainer>
             <div className="d-flex flex-row flex-wrap justify-content-center py-5">
                 {
                     products.map((product,index) => (
@@ -105,7 +136,10 @@ function ProductListing(){
                                         }
                                     </div>
                                     { !loading ? 
-                                        <Button variant="primary" onClick={() => addToCart(product)} className="mt-2 btn-sm d-block w-100">Add to cart</Button>
+                                        !isAuthenticated ?
+                                            <Button variant="primary" onClick={loginWithRedirect} className="mt-2 btn-sm d-block w-100">Add to cart</Button>
+                                        : 
+                                            <Button variant="primary" onClick={() => addToCart(product)} className="mt-2 btn-sm d-block w-100">Add to cart</Button>
                                         : 
                                         ''
                                     }

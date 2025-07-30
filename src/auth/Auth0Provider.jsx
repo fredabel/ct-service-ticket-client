@@ -10,7 +10,8 @@ const Auth0ProviderWithNavigate = ({ children }) => {
   const redirectUri = window.location.origin + "/callback"; // dynamic for any port
 
   const onRedirectCallback = (appState) => {
-    navigate(appState?.returnTo || window.location.pathname);
+    // console.log(window.location.pathname)
+    navigate(appState?.returnTo || '/');
   };
 
   if (!(domain && clientId && redirectUri)) {
