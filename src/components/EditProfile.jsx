@@ -45,20 +45,22 @@ function EditProfile(){
 
     // Initialize formData with default values
     const [formData, setFormData] = useState({
-        name: '',
+        first_name: '',
+        last_name: '',
         email: '',
         phone: '',
-        address: '',
+        billing_address: '',
         
     });
 
     useEffect(() => {
         if (userDetails) {
             setFormData({
-                name: userDetails.name || '',
+                first_name: userDetails.first_name || '',
+                last_name: userDetails.last_name || '',
                 email: userDetails.email || '',
                 phone: userDetails.phone || '',
-                address: userDetails.address || ''
+                billing_address: userDetails.billing_address || ''
             });
         }
     }, [userDetails]);
@@ -74,7 +76,7 @@ function EditProfile(){
     };
 
     const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
-    const isFormValid = formData.name && formData.email && formData.phone;
+    const isFormValid = formData.first_name && formData.email && formData.phone;
 
     const handleSubmit = async (e) =>{
         e.preventDefault()
@@ -83,7 +85,7 @@ function EditProfile(){
         try{
             setLoading(true)
             const token = await getAccessTokenSilently();
-            const response = await axios.put(`http://127.0.0.1:5000/users/`,formData,
+            const response = await axios.put(`${backend_url}/users/`,formData,
                 {
                     headers: { Authorization: `Bearer ${token}` }
                 }
@@ -129,12 +131,27 @@ function EditProfile(){
                        
                         <Form onSubmit={handleSubmit} noValidate validated={validated} >
                             <Form.Group className="mb-3" >
-                                <Form.Label className="fw-bold">Name:</Form.Label>
+                                <Form.Label className="fw-bold">First Name:</Form.Label>
                                 <Form.Control 
                                     type="text" 
-                                    placeholder="Enter your name here"
-                                    name="name"
-                                    value={formData.name}
+                                    placeholder="Enter your first name here"
+                                    name="first_name"
+                                    value={formData.first_name}
+                                    onChange={handleChange}
+                                    required
+                                    
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    This is required
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                             <Form.Group className="mb-3" >
+                                <Form.Label className="fw-bold">Last Name:</Form.Label>
+                                <Form.Control 
+                                    type="text" 
+                                    placeholder="Enter your last name here"
+                                    name="last_name"
+                                    value={formData.last_name}
                                     onChange={handleChange}
                                     required
                                     
@@ -179,8 +196,8 @@ function EditProfile(){
                                 <Form.Control 
                                     type="text" 
                                     placeholder="Enter your address here"
-                                    name="address"
-                                    value={formData.address}
+                                    name="billing_address"
+                                    value={formData.billing_address}
                                     onChange={handleChange}
                                 />
                                 {/* <Form.Control.Feedback type="invalid">

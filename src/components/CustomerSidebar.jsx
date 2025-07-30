@@ -20,9 +20,9 @@ function CustomerSidebar(){
     return(
         <Card className="border-0  p-2 mb-2 mt-5">
             <ul className="nav flex-row flex-md-column">
-                <li className="nav-item">
+                {/* <li className="nav-item">
                     <a className="nav-link active" aria-current="page" onClick={handleProfile} role="button">Profile</a>
-                </li>
+                </li> */}
                 {/* <li className="nav-item">
                     <a className="nav-link" onClick={handleMyTicket} role="button">My Tickets</a>
                 </li> */}

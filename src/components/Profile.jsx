@@ -41,12 +41,12 @@ function Profile(){
             {
                 userDetails ?
                     <CustomerLayout>
-                        <div className="px-5">
+                        <div className="px-5 d-flex flex-column justify-content-center mt-5">
                             <div className="d-flex justify-content-between flex-row align-items-center mb-5 pe-5 pt-5">
-                                <h1>{userDetails.name}</h1>
+                                <h1>{userDetails.full_name}</h1>
                                 {
-                                    userDetails.image ?
-                                    <img src={userDetails.image} alt="Profile" className="rounded-circle" style={{ width: '100px', height: '100px' }} />
+                                    userDetails.image_url ?
+                                    <img src={userDetails.image_url} alt="Profile" className="rounded-circle" style={{ width: '100px', height: '100px' }} />
                                     : <img src="https://placehold.co/100x100" alt="Profile" className="rounded-circle" style={{ width: '80px', height: '80px' }} />
                                 }
                                 
@@ -55,9 +55,9 @@ function Profile(){
                                 <div className="position-absolute end-0 bottom-50 pe-5">
                                     <Icon.ChevronRight className="fw-bold" size={20} role="button" onClick={handleEditProfile}></Icon.ChevronRight>   
                                 </div>
-                                <p className="text-muted fw-bold "> <Icon.EnvelopeFill size={20} role="button" className="me-2 "/>{userDetails.email} </p>
-                                <p className="text-muted fw-bold "> <Icon.TelephoneFill  size={20} role="button"className="me-2 " /> 123-456-5678 </p>
-                                <p className="text-muted fw-bold "> <Icon.GeoAltFill  size={20} role="button" className="me-2 "/> {userDetails.address}</p>
+                                <p className="text-muted fw-bold mb-4"> <Icon.EnvelopeFill size={20} role="button" className="me-2 "/>{userDetails.email} </p>
+                                <p className="text-muted fw-bold mb-4"> <Icon.TelephoneFill  size={20} role="button"className="me-2 " /> {userDetails.phone || '123-456-7777'}</p>
+                                <p className="text-muted fw-bold mb-4"> <Icon.GeoAltFill  size={20} role="button" className="me-2 "/> {userDetails.billing_address}</p>
                                 
                             </div>
                         </div>
