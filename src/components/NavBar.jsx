@@ -6,7 +6,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Container } from 'react-bootstrap';
 import * as Icon from 'react-bootstrap-icons';
 import UserIcon from './UserIcon';
-import CartIcon from './CartIcon';
+import CartIcon from './Cart/CartIcon';
 import axios from 'axios';
 import { useAuth0 } from "@auth0/auth0-react";
 import SideBar from './Layout/SideBar';
@@ -63,7 +63,7 @@ function NavBar(){
             </Nav>
             <Nav className="d-flex flex-row align-items-center gap-4 px-5 d-none d-lg-flex">
                 <Nav.Link as={NavLink} to="/" className={({ isActive }) => (isActive ? "active" : "")}>Home</Nav.Link>
-                <Nav.Link as={NavLink} to="/marketplace" className={({ isActive }) => (isActive ? "active" : "")}>Marketplace</Nav.Link>
+                <Nav.Link as={NavLink} to="/products" className={({ isActive }) => (isActive ? "active" : "")}>Products</Nav.Link>
                 <Nav.Link as={NavLink} to="/subscription" className={({ isActive }) => (isActive ? "active" : "")}>Subscription</Nav.Link>
             </Nav>
             <Nav className="d-flex flex-row align-items-center gap-4 pe-2">

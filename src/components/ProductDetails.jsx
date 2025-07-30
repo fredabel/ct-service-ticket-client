@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from 'axios';
 import { Container, Carousel, Row, Col, Card, Button, Badge ,Spinner, Placeholder  } from 'react-bootstrap';
-import { useCart } from "./CartContext";
+import { useCart } from "./Cart/CartContext";
 const ProductDetails = () =>{
     const { loadCart } = useCart();
     const {user, isAuthenticated, getAccessTokenSilently} = useAuth0();

@@ -4,7 +4,7 @@ import {BrowserRouter} from 'react-router-dom';
 import App from './App.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Auth0ProviderWithNavigate from "./auth/Auth0Provider";
-import { CartProvider } from "./components/CartContext";
+import { CartProvider } from "./components/Cart/CartContext";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

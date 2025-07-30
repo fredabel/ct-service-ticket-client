@@ -13,7 +13,7 @@ import * as Icon from 'react-bootstrap-icons';
 import {Container, Row, Col, Form, Card, Button, DropdownButton, Dropdown  } from 'react-bootstrap';
 import useResponsiveFontSize from './UseResponsiveFontSize';  
 import { useAuth0 } from "@auth0/auth0-react";
-import { useCart } from "../CartContext";
+import { useCart } from "../Cart/CartContext";
 
 
 const CheckoutForm = () => {
@@ -141,7 +141,7 @@ const CheckoutForm = () => {
    
     const token = await getAccessTokenSilently();
     const {data} = await axios.post(`${backend_url}/carts/create-payment-intent`,{
-      price: cart.subTotal.toString() + "00",
+      price: Math.round(order.total_amount * 100),
       currency: 'usd'
     },{
       headers: {
@@ -174,23 +174,44 @@ const CheckoutForm = () => {
     if (error) {
       alert(error.message);
     } else if (paymentIntent && paymentIntent.status === "succeeded") {
-      handleCartPayment(data.paymentIntentId)
+      console.log(paymentIntent)
+      console.log(data)
+      handlePayment(paymentIntent)
     }
   };
-  const handleCartPayment = async (paymentIntentId) => {
+  // const handleCartPayment = async (paymentIntentId) => {
+  //   try{
+  //     setLoading(true)
+  //     const token = await getAccessTokenSilently();
+  //     await axios.put(`${backend_url}/carts/update_cart/${cart.id}`,
+  //     { 
+  //       payment_status: 'paid',
+  //       stripe_session_id: paymentIntentId, 
+  //       subtotal: cart.subTotal, 
+  //       total: cart.subTotal },
+  //     {
+  //       headers: {
+  //         'Authorization': `Bearer ${token}`
+  //       }
+  //     })
+  //   }catch(error) {
+  //     console.log(error)
+  //     setError(`Failed to fetch cart items: ${error.message}`);
+        
+  //   }finally{
+  //     setLoading(false);
+  //     resetCart();
+  //     navigate('/marketplace')
+  //   }   
+  // }
+
+  const handlePayment = async (paymentIntentData) => {
     try{
       setLoading(true)
       const token = await getAccessTokenSilently();
-      await axios.put(`${backend_url}/carts/update_cart/${cart.id}`,
-      { 
-        payment_status: 'paid',
-        stripe_session_id: paymentIntentId, 
-        subtotal: cart.subTotal, 
-        total: cart.subTotal },
-      {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+      await axios.post(`${backend_url}/payments/`,
+        { payment_method: paymentIntentData.payment_method, currency: paymentIntentData.currency, payment_status: 'completed', payment_intent: paymentIntentData.id, order_id: order.id},
+        { headers: {'Authorization': `Bearer ${token}`}
       })
     }catch(error) {
       console.log(error)
@@ -198,8 +219,8 @@ const CheckoutForm = () => {
         
     }finally{
       setLoading(false);
-      resetCart();
-      navigate('/marketplace')
+      // resetCart();
+      // navigate('/marketplace')
     }   
   }
   
@@ -322,18 +343,23 @@ const CheckoutForm = () => {
                         order.discount_amount ? 
                             <div className="d-flex justify-content-between mb-3 gap-5">
                               <span className="text-muted">Discount:</span>
-                              <span className="fw-semibold">-${order.discount_amount}</span>
+                              <span className="fw-semibold">- ${order.discount_amount}</span>
                           </div>
                           : ''
                       }
                      
                       <div className="d-flex justify-content-between mb-3">
                           <span className="text-muted">Shipping Fee:</span>
-                          <span className="fw-semibold ">+${order.shipping_amount}</span>
+                          {
+                            order.shipping_amount  > 0?
+                              <span className="fw-semibold ">${order.shipping_amount}</span>
+                              : <span className="fw-semibold text-success">FREE</span>
+                          }
+                          
                         </div>
                       <div className="d-flex justify-content-between mb-3">
                         <span className="text-muted">Tax:</span>
-                        <span className="fw-semibold">+${order.tax_amount}</span>
+                        <span className="fw-semibold">${order.tax_amount}</span>
                       </div> 
                           <hr />
 
@@ -349,42 +375,42 @@ const CheckoutForm = () => {
           
         </Col>
         <Col lg={5} md={5} sm={12}>
-          <Card>
-            <Card.Body className="p-4">
-              <Form onSubmit={handleSubmit}>
-                <Form.Label>Card Number</Form.Label>
-                <Card className="mb-3 p-3">
-                  <CardNumberElement options={options} />  
-                </Card>
-                <Row>
-                  <Col sm={6}>
-                    <Form.Label>Expiration Date</Form.Label>
-                    <Card className="mb-3 p-3">
-                      <CardExpiryElement options={options} />  
-                    </Card>
-                  </Col>
-                  <Col sm={6}>
-                  <Form.Label>CVC</Form.Label>
-                    <Card className="mb-3 p-3" >
-                      <CardCvcElement options={options} />  
-                    </Card>
-                  </Col>
-                </Row>
-                <Form.Label>Billing Information</Form.Label>
-                <Card className="mb-3 p-3">
-                  <AddressElement options={{
-                    mode: 'billing',
-                    defaultValues: {
-                      country: 'US'
-                  } }}
-                  
-                  onChange={handleAddressChange}
-                  />
-                </Card>
-                <Button className="mt-2 w-100" type="submit" disabled={!stripe}>Pay</Button>
-              </Form>
-            </Card.Body>
-          </Card>
+          
+          <div className="p-4 border rounded-2 shadow-sm">
+            <Form onSubmit={handleSubmit}>
+              <Form.Label>Card Number</Form.Label>
+              <Card className="mb-3 p-3">
+                <CardNumberElement options={options} />  
+              </Card>
+              <Row>
+                <Col sm={6}>
+                  <Form.Label>Expiration Date</Form.Label>
+                  <Card className="mb-3 p-3">
+                    <CardExpiryElement options={options} />  
+                  </Card>
+                </Col>
+                <Col sm={6}>
+                <Form.Label>CVC</Form.Label>
+                  <Card className="mb-3 p-3" >
+                    <CardCvcElement options={options} />  
+                  </Card>
+                </Col>
+              </Row>
+              <Form.Label>Billing Information</Form.Label>
+              <Card className="mb-3 p-3">
+                <AddressElement options={{
+                  mode: 'billing',
+                  defaultValues: {
+                    country: 'US'
+                } }}
+                
+                onChange={handleAddressChange}
+                />
+              </Card>
+              <Button className="mt-2 w-100" type="submit" disabled={!stripe}>Pay</Button>
+            </Form>
+          </div>
+          
         </Col>
       </Row>
     </Container>

@@ -5,7 +5,7 @@ import { Container, Carousel, Row, Col, Card, Button, Placeholder, Spinner } fro
 import ErrorMessage from './ErrorMessage';
 import { useNavigate } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
-import { useCart } from "./CartContext";
+import { useCart } from "./Cart/CartContext";
 function ProductListing(){
     const { loadCart } = useCart();
     const navigate = useNavigate();
@@ -25,7 +25,7 @@ function ProductListing(){
             setProducts(response.data.items);
             setTimeout(() => {
                 setLoading(false);
-            }, 2000); 
+            }, 1000); 
         }).catch(error =>{
             setError(`Failed to fetch products: ${error.message}`);
             setLoading(false);

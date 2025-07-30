@@ -11,12 +11,7 @@ function UserIcon(){
    const { user, logout, isAuthenticated, error } = useAuth0();
    
     const navigate = useNavigate();
-    const handleProfile = () =>{
-        navigate('/profile')
-    }
-    const handleSettings = () =>{
-        navigate('/settings')
-    }
+
 
     useEffect(() => {
         // If session expired or user is not authenticated, logout
@@ -51,8 +46,8 @@ function UserIcon(){
                         <Dropdown.Item ><h5>{user.name}</h5></Dropdown.Item>
                         
                         <Dropdown.Divider />
-                        <Dropdown.Item as="button" onClick={handleProfile}>Profile</Dropdown.Item>
-                        <Dropdown.Item as="button" onClick={handleSettings}>Settings</Dropdown.Item>
+                        <Dropdown.Item as="button" onClick={()=> navigate('/profile')}>Profile</Dropdown.Item>
+                        <Dropdown.Item as="button" onClick={()=> navigate('/my_orders')}>My Orders</Dropdown.Item>
                         {/* <Dropdown.Item as="button" onClick={handleTickets}>My Tickets</Dropdown.Item> */}
                         <Dropdown.Divider />
                         <Dropdown.Item className="text-danger" onClick={handleLogout} as="button">

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Placeholder, InputGroup, Button, Form, FormControl } from 'react-bootstrap';
-import ErrorMessage from './ErrorMessage';
+// import ErrorMessage from '../ErrorMessage';
 import * as Icon from 'react-bootstrap-icons';
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from 'react-router-dom';
@@ -48,9 +48,9 @@ function CartProductItem({ item, maxQty, qty, onQtyChange, onRemove, checked, on
         );
     };
 
-    if (error) {
-        return <ErrorMessage errMsg={error} modal={true} redirect={'/products'} />;
-    }
+    // if (error) {
+    //     return <ErrorMessage errMsg={error} modal={true} redirect={'/products'} />;
+    // }
 
     const handleProductDetails = (productId) => {
         navigate(`/products/${productId}`);

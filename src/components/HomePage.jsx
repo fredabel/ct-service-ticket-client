@@ -3,17 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { Container, Carousel, Row, Col, Card, Button, Spinner  } from 'react-bootstrap';
 
 const HomePage = () =>{
-    // const navigate = useNavigate();
-
-    const handleRedirect = () =>{
-        // navigate('/products')
-    }
+    const navigate = useNavigate();
 
     return(
         <Container >
             <Row className="p-5">
                <Col sm={12} className="text-center mb-5">
-                    <h1>Fred's Platform</h1>
+                    <h1 className="fw-bold">FT STORE</h1>
                </Col>
                <Col sm={12}>
                     <p>
@@ -30,7 +26,7 @@ const HomePage = () =>{
                     <h5 className="mt-5">
                         Start exploring now and enjoy a smarter way to shop. Happy shopping! 🛒✨
                     </h5>
-                    <Button variant="primary" className="my-5" onClick={handleRedirect}>Click here to start</Button>
+                    <Button variant="primary" className="my-5" onClick={() => navigate('/products')}>Click here to start</Button>
 
                 </Col>
             </Row>

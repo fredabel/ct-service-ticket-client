@@ -18,7 +18,7 @@ const SideBar = ({ show, onHide })  => {
             <Nav>
                 <NavLink to="/"  onClick={onHide} className={({ isActive }) => "nav-link sidebar-link " + (isActive ? "active" : "")  }>Home</NavLink>
                 {/* <NavLink to="/"  onClick={onHide} className={({ isActive }) => "nav-link sidebar-link " + (isActive ? "active" : "")  }>Feeds</NavLink> */}
-                <NavLink to="/products" onClick={onHide} className={({ isActive }) => "nav-link sidebar-link " +  (isActive ? "active" : "")} >Marketplace</NavLink>
+                <NavLink to="/products" onClick={onHide} className={({ isActive }) => "nav-link sidebar-link " +  (isActive ? "active" : "")} >Products</NavLink>
                 {/* <div className="sidebar-section-title mt-2 mb-1 ps-3 text-muted fw-bold">Payment Methods</div> */}
                 {/* <NavLink to="/checkout" onClick={onHide} className={({ isActive }) => "nav-link sidebar-link sidebar-indent " +  (isActive ? "active" : "")} >Checkout</NavLink> */}
                 <NavLink to="/subscription"  onClick={onHide} className={({ isActive }) => "nav-link sidebar-link " +  (isActive ? "active" : "")} >Subscription</NavLink>

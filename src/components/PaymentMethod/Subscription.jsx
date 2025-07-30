@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Container, Carousel, Row, Col, Card, Button, Placeholder, Spinner } from 'react-bootstrap';
 import SubscriptionForm from "./SubscriptionForm";
 import SubscriptionItem from "./SubscriptionItem";
+import ComingSoon from "../ComingSoon"
 
 export default function Subscription() {
     const [plans, setPlans] = useState([]);
@@ -12,6 +13,12 @@ export default function Subscription() {
     const backend_url = import.meta.env.VITE_BACKEND_URL;
 
     const [selectedPlan, setSelectedPlan] = useState(null);
+
+    const [loading, setLoading] = useState(true)
+
+    if(loading){
+        return (<ComingSoon/>)
+    }
 
 
     useEffect(() => {

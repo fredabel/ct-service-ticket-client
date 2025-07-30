@@ -1,6 +1,6 @@
 import { useEffect,useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useCart } from "./CartContext";
+import { useCart } from "./Cart/CartContext";
 import axios from "axios";
 import * as Icon from 'react-bootstrap-icons';
 import { Container, Carousel, Row, Col, Card, Button, Placeholder, Spinner } from "react-bootstrap";
