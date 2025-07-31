@@ -1,9 +1,12 @@
-
+import { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { Container, Carousel, Row, Col, Card, Button, Spinner  } from 'react-bootstrap';
 
 const HomePage = () =>{
     const navigate = useNavigate();
+    useEffect(() => {
+        document.title = "HomePage";
+    }, []);
 
     return(
         <Container >
